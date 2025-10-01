@@ -5,6 +5,8 @@ import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import { authRouter } from "./modules/auth/auth.routes";
 import { userRouter } from "./modules/user/user.routes";
+import { blogRouter } from "./modules/blogs/blogs.routes";
+import { projectRouter } from "./modules/projects/projects.routes";
 
 dotenv.config();
 
@@ -25,6 +27,8 @@ app.use(
 
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/user", userRouter);
+app.use("/api/v1/blogs", blogRouter);
+app.use("/api/v1/projects", projectRouter);
 
 // Default route for testing
 app.get("/", (req, res) => {
