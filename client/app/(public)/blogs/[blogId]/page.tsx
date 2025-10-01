@@ -13,7 +13,7 @@ export async function generateStaticParams() {
 
 async function BlogPage({ params }: { params: Promise<{ blogId: string }> }) {
   const { blogId } = await params;
-  const blog = await getBlog(blogId);
+  const blog = await getBlog(Number(blogId));
 
   return (
     <div className="container mx-auto px-4 py-8">

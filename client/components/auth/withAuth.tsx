@@ -14,7 +14,7 @@ const withAuth = <P extends object>(WrappedComponent: React.ComponentType<P>) =>
         try {
           await getCurrentUser();
           setIsAuthenticated(true);
-        } catch (error) {
+        } catch  {
           router.push('/login');
         }
       };

@@ -1,23 +1,23 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { login } from '@/lib/auth';
-import toast from 'react-hot-toast';
-import { useRouter } from 'next/navigation';
+import React, { useState } from "react";
+import { login } from "@/lib/auth";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const LoginPage = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       await login({ email, password });
-      toast.success('Logged in successfully');
-      router.push('/dashboard');
-    } catch (error) {
-      toast.error('Failed to log in');
+      toast.success("Logged in successfully");
+      router.push("/dashboard");
+    } catch {
+      toast.error("Failed to log in");
     }
   };
 
@@ -26,7 +26,10 @@ const LoginPage = () => {
       <h1 className="text-4xl font-bold mb-4">Login</h1>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="email"
+          >
             Email
           </label>
           <input
@@ -39,7 +42,10 @@ const LoginPage = () => {
           />
         </div>
         <div className="mb-6">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="password"
+          >
             Password
           </label>
           <input

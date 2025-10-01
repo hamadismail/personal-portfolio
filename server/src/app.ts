@@ -3,6 +3,7 @@ import cors from "cors";
 import express from "express";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
+
 import { authRouter } from "./modules/auth/auth.routes";
 import { userRouter } from "./modules/user/user.routes";
 import { blogRouter } from "./modules/blogs/blogs.routes";
@@ -13,7 +14,6 @@ dotenv.config();
 const app = express();
 
 // Middleware
-app.use(cors()); // Enables Cross-Origin Resource Sharing
 app.use(compression()); // Compresses response bodies for faster delivery
 app.use(express.json()); // Parse incoming JSON requests
 app.use(cookieParser()); // Parse cookies from incoming requests
@@ -24,6 +24,8 @@ app.use(
     credentials: true,
   })
 );
+
+
 
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/user", userRouter);

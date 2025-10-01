@@ -3,7 +3,7 @@ import axios from "axios";
 
 const API_URL = "http://localhost:5000/api/v1";
 
-export const getBlog = async (id: string) => {
+export const getBlog = async (id: number) => {
   const response = await axios.get(`${API_URL}/blogs/${id}`);
   return response.data;
 };
@@ -15,7 +15,7 @@ export const updateBlog = async (id: number, data: IBlog) => {
   return response.data;
 };
 
-export const createBlog = async (data: IBlog) => {
+export const createBlog = async (data: Partial<IBlog>) => {
   const response = await axios.post(`${API_URL}/blogs`, data, {
     withCredentials: true,
   });

@@ -4,10 +4,10 @@ import React, { useEffect, useState } from 'react';
 import withAuth from '@/components/auth/withAuth';
 import { getBlog, updateBlog } from '@/lib/blogs';
 import { IBlog } from '@/types/blog';
-import toast from 'react-hot-toast';
 import { useRouter, useParams } from 'next/navigation';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
+import { toast } from 'sonner';
 
 const EditBlogPage = () => {
   const [title, setTitle] = useState('');
@@ -18,6 +18,7 @@ const EditBlogPage = () => {
   const editor = useEditor({
     extensions: [StarterKit],
     content: '',
+    immediatelyRender: false,
   });
 
   useEffect(() => {
@@ -30,7 +31,28 @@ const EditBlogPage = () => {
             editor.commands.setContent(blog.content);
           }
         }
-      } catch (error) {
+      } catch  {
+        toast.error('Failed to fetch blog');
+      }
+    };
+
+    fetchBlog();
+  }, [id, editor]);
+
+  const [blogData, setBlogData] = useState<IBlog | null>(null);
+
+  useEffect(() => {
+    const fetchBlog = async () => {
+      try {
+        if (id) {
+          const blog = await getBlog(Number(id));
+          setTitle(blog.title);
+          setBlogData(blog);
+          if (editor) {
+            editor.commands.setContent(blog.content);
+          }
+        }
+      } catch  {
         toast.error('Failed to fetch blog');
       }
     };
@@ -41,13 +63,18 @@ const EditBlogPage = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      if (editor && id) {
+      if (editor && id && blogData) {
         const content = editor.getHTML();
-        await updateBlog(Number(id), { title, content });
+        const updatedBlog: IBlog = {
+          ...blogData,
+          title,
+          content,
+        };
+        await updateBlog(Number(id), updatedBlog);
         toast.success('Blog updated successfully');
         router.push('/dashboard/blogs');
       }
-    } catch (error) {
+    } catch  {
       toast.error('Failed to update blog');
     }
   };

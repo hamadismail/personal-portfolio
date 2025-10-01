@@ -7,6 +7,7 @@ import { seedSuperAdmin } from "./utils/seedAdmin";
 dotenv.config();
 
 let server: Server | null = null;
+const PORT = process.env.PORT || 5000;
 
 async function connectToDB() {
   try {
@@ -22,8 +23,8 @@ async function startServer() {
   try {
     await connectToDB();
     server = http.createServer(app);
-    server.listen(process.env.PORT, () => {
-      console.log(`🚀 Server is running on port ${process.env.PORT}`);
+    server.listen(PORT, () => {
+      console.log(`🚀 Server is running on port ${PORT}`);
     });
 
     handleProcessEvents();

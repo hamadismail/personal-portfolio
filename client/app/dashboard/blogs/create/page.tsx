@@ -3,10 +3,10 @@
 import React, { useState } from 'react';
 import withAuth from '@/components/auth/withAuth';
 import { createBlog } from '@/lib/blogs';
-import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
+import { toast } from 'sonner';
 
 const CreateBlogPage = () => {
   const [title, setTitle] = useState('');
@@ -15,6 +15,7 @@ const CreateBlogPage = () => {
   const editor = useEditor({
     extensions: [StarterKit],
     content: '',
+    immediatelyRender: false,
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -26,7 +27,7 @@ const CreateBlogPage = () => {
         toast.success('Blog created successfully');
         router.push('/dashboard/blogs');
       }
-    } catch (error) {
+    } catch {
       toast.error('Failed to create blog');
     }
   };
