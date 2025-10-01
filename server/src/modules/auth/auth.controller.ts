@@ -28,7 +28,13 @@ const logout = (req: Request, res: Response) => {
   res.status(200).json({ message: "Logged out successfully" });
 };
 
+const me = (req: Request, res: Response) => {
+  const user = (req as any).user;
+  res.status(200).json({ user });
+};
+
 export const AuthController = {
   loginWithEmailAndPassword,
   logout,
+  me,
 };
