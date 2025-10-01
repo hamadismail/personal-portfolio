@@ -1,6 +1,12 @@
 import compression from "compression";
 import cors from "cors";
 import express from "express";
+import cookieParser from "cookie-parser";
+import dotenv from "dotenv";
+import { authRouter } from "./modules/auth/auth.routes";
+import { userRouter } from "./modules/user/user.routes";
+
+dotenv.config();
 
 const app = express();
 
@@ -8,6 +14,7 @@ const app = express();
 app.use(cors()); // Enables Cross-Origin Resource Sharing
 app.use(compression()); // Compresses response bodies for faster delivery
 app.use(express.json()); // Parse incoming JSON requests
+app.use(cookieParser()); // Parse cookies from incoming requests
 
 app.use(
   cors({
@@ -16,8 +23,8 @@ app.use(
   })
 );
 
-// app.use("/api/v1/user",);
-// app.use("/api/v1/post",);
+app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/user", userRouter);
 
 // Default route for testing
 app.get("/", (req, res) => {

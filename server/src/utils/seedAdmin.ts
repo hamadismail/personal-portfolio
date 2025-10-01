@@ -14,7 +14,10 @@ export const seedSuperAdmin = async () => {
 
     console.log("Trying to create Super Admin...");
 
-    const hashedPassword = await bcryptjs.hash("admin@password", Number(10));
+    const hashedPassword = await bcryptjs.hash(
+      "admin@password",
+      Number(process.env.BCRYPT_SALT)
+    );
 
     const payload = {
       name: "Admin",
