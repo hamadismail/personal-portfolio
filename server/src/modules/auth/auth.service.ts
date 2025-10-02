@@ -9,6 +9,7 @@ const loginWithEmailAndPassword = async ({
   email: string;
   password: string;
 }) => {
+
   const user = await prisma.user.findUnique({
     where: {
       email,

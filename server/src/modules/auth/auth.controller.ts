@@ -6,6 +6,7 @@ const loginWithEmailAndPassword = async (req: Request, res: Response) => {
     const { user, token } = await AuthService.loginWithEmailAndPassword(
       req.body
     );
+
     res.cookie("accessToken", token, {
       httpOnly: true,
       secure: true,
@@ -13,13 +14,7 @@ const loginWithEmailAndPassword = async (req: Request, res: Response) => {
     });
     res.status(200).json({ user, accessToken: token });
   } catch (error: any) {
-    if (error.message === "User not found!") {
-      res.status(404).json({ message: error.message });
-    } else if (error.message === "Password is incorrect!") {
-      res.status(401).json({ message: error.message });
-    } else {
-      res.status(500).json({ message: "Internal server error" });
-    }
+    res.status(404).json({ message: "Invalid Creadentials" });
   }
 };
 

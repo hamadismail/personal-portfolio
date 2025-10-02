@@ -11,7 +11,9 @@ export const login = async (credentials: LoginCredentials) => {
   const response = await axios.post(`http://localhost:5000/api/v1/auth/login`, credentials, {
     withCredentials: true,
   });
-  return response.data;
+
+  return response;
+
 };
 
 export const getCurrentUser = async () => {

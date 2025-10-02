@@ -4,8 +4,8 @@ import React, { useEffect, useState } from 'react';
 import withAuth from '@/components/auth/withAuth';
 import { getProjects, deleteProject } from '@/lib/projects';
 import { IProject } from '@/types/project';
-import toast from 'react-hot-toast';
 import Link from 'next/link';
+import { toast } from 'sonner';
 
 const ManageProjectsPage = () => {
   const [projects, setProjects] = useState<IProject[]>([]);

@@ -16,8 +16,10 @@ const LoginPage = () => {
       await login({ email, password });
       toast.success("Logged in successfully");
       router.push("/dashboard");
-    } catch {
-      toast.error("Failed to log in");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch(error: any) {
+      toast.error(error?.response.data?.message as string || "Failed to log in");
+      console.log(error)
     }
   };
 
