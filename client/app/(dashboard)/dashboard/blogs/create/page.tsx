@@ -6,7 +6,6 @@ import { createBlog } from "@/lib/blogs";
 import { useRouter } from "next/navigation";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import Underline from "@tiptap/extension-underline";
 import { Image as TImage } from "@tiptap/extension-image";
 import Link from "@tiptap/extension-link";
 import Image from "next/image";
@@ -24,8 +23,10 @@ const CreateBlogPage = () => {
 
   const editor = useEditor({
     extensions: [
-      StarterKit,
-      Underline,
+      StarterKit.configure({
+        link: false, // disable built-in link
+        underline: false, // disable built-in underline
+      }),
       TImage,
       Link.configure({
         openOnClick: false,

@@ -1,10 +1,11 @@
 import React from "react";
-import { getBlogs } from "@/lib/blogs";
+// import { getBlogs } from "@/lib/blogs";
 import { IBlog } from "@/types/blog";
 import Link from "next/link";
 import Image from "next/image";
+import { getBlogsActions } from "@/actions/blogActions";
 
-export const revalidate = 60;
+// export const revalidate = 60;
 
 // Function to strip HTML tags and get plain text excerpt
 const stripHtml = (html: string) => {
@@ -20,7 +21,7 @@ const getExcerpt = (content: string, maxLength: number = 150) => {
 };
 
 async function BlogsPage() {
-  const blogs: IBlog[] = await getBlogs();
+  const blogs: IBlog[] = await getBlogsActions();
 
   return (
     <div className="min-h-screen bg-gray-50 py-12 pt-28">

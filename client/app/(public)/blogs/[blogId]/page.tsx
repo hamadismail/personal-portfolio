@@ -55,7 +55,7 @@ async function BlogPage({ params }: { params: Promise<{ blogId: string }> }) {
   const readingTime = Math.ceil(blog.content.split(/\s+/).length / 200);
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-gray-50 py-8 pt-12">
       {/* Navigation */}
       <div className="container mx-auto px-4 mb-8">
         <Link

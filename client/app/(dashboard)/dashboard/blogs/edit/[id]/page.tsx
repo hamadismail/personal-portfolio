@@ -7,7 +7,6 @@ import { IBlog } from "@/types/blog";
 import { useRouter, useParams } from "next/navigation";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import Underline from "@tiptap/extension-underline";
 import { Image as TImage } from "@tiptap/extension-image";
 import Link from "@tiptap/extension-link";
 import { toast } from "sonner";
@@ -29,8 +28,10 @@ const EditBlogPage = () => {
 
   const editor = useEditor({
     extensions: [
-      StarterKit,
-      Underline,
+      StarterKit.configure({
+        link: false, // disable built-in link
+        underline: false, // disable built-in underline
+      }),
       TImage,
       Link.configure({
         openOnClick: false,
