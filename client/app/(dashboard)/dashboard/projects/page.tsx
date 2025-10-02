@@ -15,7 +15,7 @@ const ManageProjectsPage = () => {
       try {
         const fetchedProjects = await getProjects();
         setProjects(fetchedProjects);
-      } catch (error) {
+      } catch  {
         toast.error('Failed to fetch projects');
       }
     };
@@ -28,7 +28,7 @@ const ManageProjectsPage = () => {
       await deleteProject(id);
       setProjects(projects.filter((project) => project.id !== id));
       toast.success('Project deleted successfully');
-    } catch (error) {
+    } catch  {
       toast.error('Failed to delete project');
     }
   };

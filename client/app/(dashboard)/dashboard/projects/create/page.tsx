@@ -1,26 +1,31 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import withAuth from '@/components/auth/withAuth';
-import { createProject } from '@/lib/projects';
-import toast from 'react-hot-toast';
-import { useRouter } from 'next/navigation';
+import React, { useState } from "react";
+import withAuth from "@/components/auth/withAuth";
+import { createProject } from "@/lib/projects";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const CreateProjectPage = () => {
-  const [title, setTitle] = useState('');
-  const [thumbnail, setThumbnail] = useState('');
-  const [liveUrl, setLiveUrl] = useState('');
-  const [gitRepo, setGitRepo] = useState('');
+  const [title, setTitle] = useState("");
+  const [thumbnail, setThumbnail] = useState("");
+  const [liveUrl, setLiveUrl] = useState("");
+  const [gitRepo, setGitRepo] = useState("");
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await createProject({ title, thumbnail, liveUrl, gitRepo });
-      toast.success('Project created successfully');
-      router.push('/dashboard/projects');
-    } catch (error) {
-      toast.error('Failed to create project');
+      await createProject({
+        title,
+        thumbnail,
+        liveUrl,
+        gitRepo,
+      });
+      toast.success("Project created successfully");
+      router.push("/dashboard/projects");
+    } catch  {
+      toast.error("Failed to create project");
     }
   };
 
@@ -29,7 +34,10 @@ const CreateProjectPage = () => {
       <h1 className="text-4xl font-bold mb-4">Create Project</h1>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="title">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="title"
+          >
             Title
           </label>
           <input
@@ -42,7 +50,10 @@ const CreateProjectPage = () => {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="thumbnail">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="thumbnail"
+          >
             Thumbnail URL
           </label>
           <input
@@ -55,7 +66,10 @@ const CreateProjectPage = () => {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="liveUrl">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="liveUrl"
+          >
             Live URL
           </label>
           <input
@@ -68,7 +82,10 @@ const CreateProjectPage = () => {
           />
         </div>
         <div className="mb-6">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="gitRepo">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="gitRepo"
+          >
             Git Repo URL
           </label>
           <input

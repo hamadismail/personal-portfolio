@@ -9,7 +9,9 @@ export default function DashboardLayout({
   return (
     <main className="min-h-dvh flex gap-4">
       <Sidebar />
-      {children}
+      <div className="ml-[260px] w-full">
+        {children}
+      </div>
     </main>
   );
 }
