@@ -1,7 +1,7 @@
 import { IBlog } from "@/types/blog";
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/v1";
+const API_URL = process.env.NEXT_PUBLIC_API;
 
 export const getBlog = async (id: number) => {
   const response = await axios.get(`${API_URL}/blogs/${id}`);

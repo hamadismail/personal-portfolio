@@ -1,6 +1,6 @@
-import axios from 'axios';
+import axios from "axios";
 
-const API_URL = 'http://localhost:5000/api/v1';
+const API_URL = process.env.NEXT_PUBLIC_API;
 
 interface LoginCredentials {
   email: string;
@@ -8,12 +8,11 @@ interface LoginCredentials {
 }
 
 export const login = async (credentials: LoginCredentials) => {
-  const response = await axios.post(`http://localhost:5000/api/v1/auth/login`, credentials, {
+  const response = await axios.post(`${API_URL}/auth/login`, credentials, {
     withCredentials: true,
   });
 
   return response;
-
 };
 
 export const getCurrentUser = async () => {
