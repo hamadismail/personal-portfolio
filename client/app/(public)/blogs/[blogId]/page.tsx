@@ -55,7 +55,7 @@ async function BlogPage({ params }: { params: Promise<{ blogId: string }> }) {
   const readingTime = Math.ceil(blog.content.split(/\s+/).length / 200);
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 pt-12">
+    <div className="min-h-screen bg-gray-50 py-8 pt-24">
       {/* Navigation */}
       <div className="container mx-auto px-4 mb-8">
         <Link
@@ -66,7 +66,7 @@ async function BlogPage({ params }: { params: Promise<{ blogId: string }> }) {
         </Link>
       </div>
 
-      <article className="container mx-auto px-4 max-w-4xl">
+      <article className="container mx-auto px-4">
         {/* Header Section */}
         <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 mb-8">
           {/* Featured Badge */}

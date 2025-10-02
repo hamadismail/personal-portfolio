@@ -4,6 +4,10 @@ import { getBlogs } from "@/lib/blogs";
 import { getProjects } from "@/lib/projects";
 import { IBlog } from "@/types/blog";
 import { IProject } from "@/types/project";
+import { RiNextjsFill, RiNodejsLine, RiTailwindCssFill } from "react-icons/ri";
+import { FaReact } from "react-icons/fa";
+import { SiMongodb, SiPrisma, SiTypescript } from "react-icons/si";
+import { BiLogoPostgresql } from "react-icons/bi";
 
 export const revalidate = 60;
 
@@ -21,7 +25,7 @@ async function Home() {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-blue-50 via-white to-indigo-50 py-20 lg:py-32">
+      <section className="relative bg-gradient-to-br from-blue-50 via-white to-indigo-50 py-24 lg:py-32">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {/* Hero Content */}
@@ -255,18 +259,26 @@ async function Home() {
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
             {[
-              { name: "React", icon: "⚛️" },
-              { name: "Next.js", icon: "▲" },
-              { name: "TypeScript", icon: "📘" },
-              { name: "Node.js", icon: "🟢" },
-              { name: "Tailwind CSS", icon: "🎨" },
-              { name: "PostgreSQL", icon: "🐘" },
+              { name: "React", icon: <FaReact color="#61DBFB" /> }, // React cyan
+              { name: "Next.js", icon: <RiNextjsFill color="#000000" /> }, // Next.js black
+              { name: "TypeScript", icon: <SiTypescript color="#3178C6" /> }, // TS blue
+              { name: "Node.js", icon: <RiNodejsLine color="#339933" /> }, // Node green
+              {
+                name: "Tailwind CSS",
+                icon: <RiTailwindCssFill color="#0ea5e9" />,
+              }, // Tailwind sky-blue
+              {
+                name: "PostgreSQL",
+                icon: <BiLogoPostgresql color="#336791" />,
+              }, // Postgres navy blue
+              { name: "MongoDB", icon: <SiMongodb color="#47A248" /> }, // Mongo green
+              { name: "Prisma", icon: <SiPrisma color="#2D3748" /> }, // Prisma dark gray
             ].map((tech) => (
               <div
                 key={tech.name}
                 className="bg-white rounded-2xl p-6 text-center shadow-sm hover:shadow-lg transition-shadow duration-300 group"
               >
-                <div className="text-3xl mb-3 group-hover:scale-110 transition-transform duration-300">
+                <div className="flex justify-center text-3xl mb-3 group-hover:scale-110 transition-transform duration-300">
                   {tech.icon}
                 </div>
                 <h3 className="font-semibold text-gray-900">{tech.name}</h3>

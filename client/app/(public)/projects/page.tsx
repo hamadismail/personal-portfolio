@@ -38,7 +38,7 @@ async function ProjectsPage() {
                 <span className="text-sm font-medium">Highlighted Work</span>
               </div>
             </div>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
               {featuredProjects.map((project) => (
                 <ProjectCard key={project.id} project={project} featured />
               ))}
@@ -109,122 +109,116 @@ const ProjectCard = ({
   featured?: boolean;
 }) => {
   return (
-    <div
-      className={`bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-lg transition-all duration-300 group ${
-        featured ? "border-2 border-blue-200" : "border border-gray-200"
-      }`}
-    >
-      {/* Thumbnail */}
-      {project.thumbnail && (
-        <div className="relative h-48 overflow-hidden">
-          <Image
-            src={project.thumbnail}
-            alt={project.title}
-            fill
-            className="object-cover group-hover:scale-105 transition-transform duration-300"
-          />
-          {featured && (
-            <div className="absolute top-4 left-4">
-              <span className="inline-flex items-center px-3 py-1 bg-blue-600 text-white text-sm font-medium rounded-full">
+    <Link href={`/projects/${project.id}`}>
+      <div
+        className={`bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-lg transition-all duration-300 group ${
+          featured ? "border-2 border-blue-200" : "border border-gray-200"
+        }`}
+      >
+        {/* Thumbnail */}
+        {project.thumbnail && (
+          <div className="relative h-48 overflow-hidden">
+            <Image
+              src={project.thumbnail}
+              alt={project.title}
+              fill
+              className="object-cover group-hover:scale-105 transition-transform duration-300"
+            />
+            {featured && (
+              <div className="absolute top-4 left-4">
+                <span className="inline-flex items-center px-3 py-1 bg-blue-600 text-white text-sm font-medium rounded-full">
+                  <StarIcon />
+                  Featured
+                </span>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Content */}
+        <div className="p-6">
+          <div className="flex items-start justify-between mb-3">
+            <h3
+              className={`font-bold text-gray-900 group-hover:text-blue-600 transition-colors line-clamp-2 ${
+                featured ? "text-xl" : "text-lg"
+              }`}
+            >
+              {project.title}
+            </h3>
+            {!project.thumbnail && featured && (
+              <span className="inline-flex items-center px-2 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded-full ml-2 flex-shrink-0">
                 <StarIcon />
-                Featured
               </span>
+            )}
+          </div>
+
+          <p className="text-gray-600 mb-4 line-clamp-3 text-sm leading-relaxed">
+            {project.description}
+          </p>
+
+          {/* Tech Stack */}
+          {project.techStack && project.techStack.length > 0 && (
+            <div className="flex flex-wrap gap-1 mb-4">
+              {project.techStack.slice(0, 3).map((tech) => (
+                <span
+                  key={tech}
+                  className="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded"
+                >
+                  {tech}
+                </span>
+              ))}
+              {project.techStack.length > 3 && (
+                <span className="text-gray-400 text-xs">
+                  +{project.techStack.length - 3}
+                </span>
+              )}
             </div>
           )}
-        </div>
-      )}
 
-      {/* Content */}
-      <div className="p-6">
-        <div className="flex items-start justify-between mb-3">
-          <h3
-            className={`font-bold text-gray-900 group-hover:text-blue-600 transition-colors line-clamp-2 ${
-              featured ? "text-xl" : "text-lg"
-            }`}
-          >
-            {project.title}
-          </h3>
-          {!project.thumbnail && featured && (
-            <span className="inline-flex items-center px-2 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded-full ml-2 flex-shrink-0">
-              <StarIcon />
-            </span>
-          )}
-        </div>
-
-        <p className="text-gray-600 mb-4 line-clamp-3 text-sm leading-relaxed">
-          {project.description}
-        </p>
-
-        {/* Tech Stack */}
-        {project.techStack && project.techStack.length > 0 && (
-          <div className="flex flex-wrap gap-1 mb-4">
-            {project.techStack.slice(0, 3).map((tech) => (
-              <span
-                key={tech}
-                className="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded"
-              >
-                {tech}
-              </span>
-            ))}
-            {project.techStack.length > 3 && (
-              <span className="text-gray-400 text-xs">
-                +{project.techStack.length - 3}
-              </span>
+          {/* Action Buttons */}
+          <div className="flex justify-between items-center pt-4 border-t border-gray-100">
+            {/* Tags */}
+            {project.tags && project.tags.length > 0 && (
+              <div className="flex flex-wrap gap-1">
+                {project.tags.slice(0, 2).map((tag) => (
+                  <span
+                    key={tag}
+                    className="bg-gray-100 text-gray-600 text-xs px-2 rounded"
+                  >
+                    #{tag}
+                  </span>
+                ))}
+              </div>
             )}
-          </div>
-        )}
 
-        {/* Tags */}
-        {project.tags && project.tags.length > 0 && (
-          <div className="flex flex-wrap gap-1 mb-4">
-            {project.tags.slice(0, 2).map((tag) => (
-              <span
-                key={tag}
-                className="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded"
-              >
-                #{tag}
-              </span>
-            ))}
-          </div>
-        )}
-
-        {/* Action Buttons */}
-        <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-          <Link
-            href={`/projects/${project.id}`}
-            className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium transition-colors text-sm"
-          >
-            View Details
-            <ArrowRightIcon />
-          </Link>
-
-          <div className="flex gap-3">
-            {project.liveUrl && (
-              <a
-                href={project.liveUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-400 hover:text-gray-600 transition-colors"
-                title="Live Demo"
-              >
-                <ExternalLinkIcon />
-              </a>
-            )}
-            {project.gitRepo && (
-              <a
-                href={project.gitRepo}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-400 hover:text-gray-600 transition-colors"
-                title="Source Code"
-              >
-                <GitHubIcon />
-              </a>
-            )}
+            <div className="flex gap-3">
+              {project.liveUrl && (
+                <a
+                  href={project.liveUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-400 hover:text-gray-600 transition-colors"
+                  title="Live Demo"
+                >
+                  <ExternalLinkIcon />
+                </a>
+              )}
+              {project.gitRepo && (
+                <a
+                  href={project.gitRepo}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-400 hover:text-gray-600 transition-colors"
+                  title="Source Code"
+                >
+                  <GitHubIcon />
+                </a>
+              )}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

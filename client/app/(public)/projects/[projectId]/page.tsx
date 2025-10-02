@@ -58,7 +58,7 @@ async function ProjectDetailsPage({
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-gray-50 py-8 pt-24">
       {/* Navigation */}
       <div className="container mx-auto px-4 mb-8">
         <Link
@@ -69,7 +69,7 @@ async function ProjectDetailsPage({
         </Link>
       </div>
 
-      <div className="container mx-auto px-4 max-w-6xl">
+      <div className="container mx-auto px-4">
         {/* Project Header */}
         <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 mb-8">
           <div className="flex flex-col lg:flex-row gap-8">
