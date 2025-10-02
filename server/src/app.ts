@@ -20,7 +20,7 @@ app.use(cookieParser()); // Parse cookies from incoming requests
 
 app.use(
   cors({
-    origin: "https://hamad.vercel.app",
+    origin: "https://hamad-phi.vercel.app",
     credentials: true,
   })
 );

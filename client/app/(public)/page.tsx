@@ -51,7 +51,7 @@ async function Home() {
                   <ArrowRightIcon />
                 </Link>
                 <Link
-                  href="/contact"
+                  href="/"
                   className="inline-flex items-center px-8 py-4 border-2 border-gray-300 text-gray-700 font-medium rounded-lg hover:border-blue-600 hover:text-blue-600 transition-colors"
                 >
                   Get In Touch
@@ -289,7 +289,7 @@ async function Home() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              href="/contact"
+              href="/"
               className="inline-flex items-center px-8 py-4 bg-white text-blue-600 font-medium rounded-lg hover:bg-gray-100 transition-colors shadow-lg"
             >
               Get In Touch

@@ -19,7 +19,7 @@ app.use((0, compression_1.default)()); // Compresses response bodies for faster 
 app.use(express_1.default.json()); // Parse incoming JSON requests
 app.use((0, cookie_parser_1.default)()); // Parse cookies from incoming requests
 app.use((0, cors_1.default)({
-    origin: "https://hamad.vercel.app",
+    origin: "https://hamad-phi.vercel.app",
     credentials: true,
 }));
 app.use("/api/v1/auth", auth_routes_1.authRouter);

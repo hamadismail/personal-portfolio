@@ -9,8 +9,8 @@ import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
 import { Image as TImage } from "@tiptap/extension-image";
 import Link from "@tiptap/extension-link";
-import { toast } from "sonner";
 import Image from "next/image";
+import { toast } from "sonner";
 
 const CreateBlogPage = () => {
   const [formData, setFormData] = useState({

@@ -198,7 +198,7 @@ const LoginPage = () => {
           <p className="text-sm text-gray-600">
             Don&#39;t have an account?{" "}
             <Link
-              href="/contact"
+              href="/"
               className="font-medium text-blue-600 hover:text-blue-500 transition-colors"
             >
               Contact the administrator
