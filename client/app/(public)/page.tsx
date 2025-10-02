@@ -63,14 +63,14 @@ async function Home() {
             <div className="relative">
               <div className="relative w-80 h-80 lg:w-96 lg:h-96 mx-auto">
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full opacity-10 animate-pulse"></div>
-                <Image
-                  src="/hamad.png"
-                  alt="Hamad Ismail"
-                  fill
-                  className="object-cover rounded-full"
-                />
-                {/* <div className="absolute inset-8 bg-gradient-to-br from-blue-100 to-purple-100 rounded-2xl shadow-2xl flex items-center justify-center">
-                </div> */}
+                <div className="absolute inset-8 bg-gradient-to-br from-blue-100 to-purple-100 rounded-2xl shadow-2xl flex items-center justify-center">
+                  <Image
+                    src="/hamad.png"
+                    alt="Hamad Ismail"
+                    fill
+                    className="object-cover rounded-full"
+                  />
+                </div>
                 {/* Floating elements */}
                 <div className="absolute -top-4 -left-4 w-20 h-20 bg-yellow-100 rounded-2xl shadow-lg flex items-center justify-center">
                   <span className="text-2xl">🚀</span>
