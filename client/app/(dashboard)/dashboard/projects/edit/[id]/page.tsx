@@ -1,13 +1,14 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import withAuth from "@/components/auth/withAuth";
-import { createProject } from "@/lib/projects";
-import { useRouter } from "next/navigation";
+import { getProject, updateProject } from "@/lib/projects";
+import { IProject } from "@/types/project";
+import { useRouter, useParams } from "next/navigation";
 import { toast } from "sonner";
 import Image from "next/image";
 
-const CreateProjectPage = () => {
+const EditProjectPage = () => {
   const [formData, setFormData] = useState({
     title: "",
     thumbnail: "",
@@ -19,8 +20,41 @@ const CreateProjectPage = () => {
     features: "",
     isFeatured: false,
   });
+  const [projectData, setProjectData] = useState<IProject | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
+  const params = useParams();
+  const { id } = params;
+
+  useEffect(() => {
+    const fetchProject = async () => {
+      try {
+        if (id) {
+          const project = await getProject(Number(id));
+          setProjectData(project);
+          setFormData({
+            title: project.title,
+            thumbnail: project.thumbnail || "",
+            liveUrl: project.liveUrl || "",
+            gitRepo: project.gitRepo || "",
+            description: project.description,
+            tags: project.tags?.join(", ") || "",
+            techStack: project.techStack?.join(", ") || "",
+            features: project.features?.join("\n") || "",
+            isFeatured: project.isFeatured || false,
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching project:", error);
+        toast.error("Failed to fetch project");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchProject();
+  }, [id]);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -49,36 +83,57 @@ const CreateProjectPage = () => {
     setIsSubmitting(true);
 
     try {
-      const projectData = {
-        title: formData.title,
-        thumbnail: formData.thumbnail,
-        liveUrl: formData.liveUrl,
-        gitRepo: formData.gitRepo,
-        description: formData.description,
-        tags: formData.tags
-          .split(",")
-          .map((tag) => tag.trim())
-          .filter((tag) => tag),
-        techStack: formData.techStack
-          .split(",")
-          .map((tech) => tech.trim())
-          .filter((tech) => tech),
-        features: formData.features
-          .split("\n")
-          .filter((feature) => feature.trim()),
-        isFeatured: formData.isFeatured,
-      };
+      if (id && projectData) {
+        const updatedProject: IProject = {
+          ...projectData,
+          title: formData.title,
+          thumbnail: formData.thumbnail,
+          liveUrl: formData.liveUrl,
+          gitRepo: formData.gitRepo,
+          description: formData.description,
+          tags: formData.tags
+            .split(",")
+            .map((tag) => tag.trim())
+            .filter((tag) => tag),
+          techStack: formData.techStack
+            .split(",")
+            .map((tech) => tech.trim())
+            .filter((tech) => tech),
+          features: formData.features
+            .split("\n")
+            .filter((feature) => feature.trim()),
+          isFeatured: formData.isFeatured,
+          updatedAt: new Date(),
+        };
 
-      await createProject(projectData);
-      toast.success("Project created successfully!");
-      router.push("/dashboard/projects");
+        await updateProject(Number(id), updatedProject);
+        toast.success("Project updated successfully!");
+        router.push("/dashboard/projects");
+      }
     } catch (error) {
-      console.error("Error creating project:", error);
-      toast.error("Failed to create project");
+      console.error("Error updating project:", error);
+      toast.error("Failed to update project. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
   };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50 py-8">
+        <div className="px-4">
+          <div className="animate-pulse">
+            <div className="h-8 bg-gray-200 rounded w-1/3 mb-8"></div>
+            <div className="space-y-6">
+              <div className="h-12 bg-gray-200 rounded"></div>
+              <div className="h-32 bg-gray-200 rounded"></div>
+              <div className="h-12 bg-gray-200 rounded w-1/4"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
@@ -92,12 +147,10 @@ const CreateProjectPage = () => {
             >
               <ArrowLeftIcon />
             </button>
-            <h1 className="text-3xl font-bold text-gray-900">
-              Add New Project
-            </h1>
+            <h1 className="text-3xl font-bold text-gray-900">Edit Project</h1>
           </div>
           <p className="text-gray-600 ml-10">
-            Showcase your work with detailed project information
+            Update your project details and information
           </p>
         </div>
 
@@ -330,69 +383,107 @@ const CreateProjectPage = () => {
             </div>
           </div>
 
-          {/* Preview Card */}
-          {(formData.title || formData.description || formData.thumbnail) && (
+          {/* Project Stats */}
+          {projectData && (
             <div className="bg-blue-50 rounded-xl p-6 border border-blue-200">
               <h3 className="text-lg font-semibold text-blue-900 mb-4">
-                Project Preview
+                Project Information
               </h3>
-              <div className="bg-white rounded-lg p-4 border border-blue-200">
-                <div className="flex items-start gap-4">
-                  {formData.thumbnail && (
-                    <div className="relative w-20 h-16 rounded-lg overflow-hidden flex-shrink-0">
-                      <Image
-                        src={formData.thumbnail}
-                        alt="Project preview"
-                        fill
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                  )}
-                  <div className="flex-1">
-                    <h4 className="font-semibold text-gray-900 mb-2">
-                      {formData.title || "Project Title"}
-                    </h4>
-                    <p className="text-gray-600 text-sm line-clamp-2">
-                      {formData.description ||
-                        "Project description will appear here..."}
-                    </p>
-                    {(formData.tags || formData.techStack) && (
-                      <div className="flex flex-wrap gap-1 mt-2">
-                        {formData.tags
-                          .split(",")
-                          .slice(0, 2)
-                          .map(
-                            (tag, index) =>
-                              tag.trim() && (
-                                <span
-                                  key={index}
-                                  className="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded"
-                                >
-                                  #{tag.trim()}
-                                </span>
-                              )
-                          )}
-                        {formData.techStack
-                          .split(",")
-                          .slice(0, 2)
-                          .map(
-                            (tech, index) =>
-                              tech.trim() && (
-                                <span
-                                  key={index}
-                                  className="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded"
-                                >
-                                  {tech.trim()}
-                                </span>
-                              )
-                          )}
-                      </div>
-                    )}
-                  </div>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                <div>
+                  <p className="text-blue-700 font-medium">Created</p>
+                  <p className="text-blue-900">
+                    {new Date(projectData.createdAt).toLocaleDateString()}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-blue-700 font-medium">Last Updated</p>
+                  <p className="text-blue-900">
+                    {new Date(projectData.updatedAt).toLocaleDateString()}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-blue-700 font-medium">Status</p>
+                  <p className="text-blue-900">
+                    {projectData.isFeatured ? "Featured" : "Published"}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-blue-700 font-medium">Technologies</p>
+                  <p className="text-blue-900">
+                    {projectData.techStack?.length || 0}
+                  </p>
                 </div>
               </div>
             </div>
           )}
+
+          {/* Preview Card */}
+          <div className="bg-green-50 rounded-xl p-6 border border-green-200">
+            <h3 className="text-lg font-semibold text-green-900 mb-4">
+              Project Preview
+            </h3>
+            <div className="bg-white rounded-lg p-4 border border-green-200">
+              <div className="flex items-start gap-4">
+                {formData.thumbnail && (
+                  <div className="relative w-20 h-16 rounded-lg overflow-hidden flex-shrink-0">
+                    <Image
+                      src={formData.thumbnail}
+                      alt="Project preview"
+                      fill
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                )}
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-2">
+                    <h4 className="font-semibold text-gray-900">
+                      {formData.title || "Project Title"}
+                    </h4>
+                    {formData.isFeatured && (
+                      <span className="inline-flex items-center px-2 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded-full">
+                        Featured
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-gray-600 text-sm line-clamp-2 mb-3">
+                    {formData.description ||
+                      "Project description will appear here..."}
+                  </p>
+                  <div className="flex flex-wrap gap-1">
+                    {formData.tags
+                      .split(",")
+                      .slice(0, 3)
+                      .map(
+                        (tag, index) =>
+                          tag.trim() && (
+                            <span
+                              key={index}
+                              className="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded"
+                            >
+                              #{tag.trim()}
+                            </span>
+                          )
+                      )}
+                    {formData.techStack
+                      .split(",")
+                      .slice(0, 2)
+                      .map(
+                        (tech, index) =>
+                          tech.trim() && (
+                            <span
+                              key={index}
+                              className="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded"
+                            >
+                              {tech.trim()}
+                            </span>
+                          )
+                      )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
           {/* Action Buttons */}
           <div className="flex items-center justify-between pt-6">
@@ -409,24 +500,13 @@ const CreateProjectPage = () => {
               <button
                 type="button"
                 onClick={() => {
-                  // Reset form
-                  setFormData({
-                    title: "",
-                    thumbnail: "",
-                    liveUrl: "",
-                    gitRepo: "",
-                    description: "",
-                    tags: "",
-                    techStack: "",
-                    features: "",
-                    isFeatured: false,
-                  });
-                  toast.info("Form cleared");
+                  // Preview functionality
+                  window.open(`/projects/${id}`, "_blank");
                 }}
                 className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium"
                 disabled={isSubmitting}
               >
-                Clear Form
+                Preview Live
               </button>
 
               <button
@@ -437,10 +517,10 @@ const CreateProjectPage = () => {
                 {isSubmitting ? (
                   <span className="flex items-center">
                     <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                    Creating...
+                    Updating...
                   </span>
                 ) : (
-                  "Create Project"
+                  "Update Project"
                 )}
               </button>
             </div>
@@ -468,4 +548,4 @@ const ArrowLeftIcon = () => (
   </svg>
 );
 
-export default withAuth(CreateProjectPage);
+export default withAuth(EditProjectPage);

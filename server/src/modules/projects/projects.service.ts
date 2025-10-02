@@ -2,10 +2,15 @@ import { prisma } from "../../config/db";
 import { IProject } from "./projects.model";
 
 const createProject = async (payload: IProject): Promise<IProject> => {
-  const newProject = await prisma.project.create({
-    data: payload,
-  });
-  return newProject;
+  try {
+    const newProject = await prisma.project.create({
+      data: payload,
+    });
+    return newProject;
+  } catch (error) {
+    console.log("Failed to create project");
+    throw error;
+  }
 };
 
 const getProjects = async (): Promise<IProject[]> => {

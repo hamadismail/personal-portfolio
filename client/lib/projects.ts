@@ -1,7 +1,7 @@
-import { IProject } from '@/types/project';
-import axios from 'axios';
+import { IProject } from "@/types/project";
+import axios from "axios";
 
-const API_URL = 'http://localhost:5000/api/v1';
+const API_URL = "http://localhost:5000/api/v1";
 
 export const createProject = async (data: Partial<IProject>) => {
   const response = await axios.post(`${API_URL}/projects`, data, {
@@ -10,8 +10,20 @@ export const createProject = async (data: Partial<IProject>) => {
   return response.data;
 };
 
+export const getProject = async (id: number) => {
+  const response = await axios.get(`${API_URL}/projects/${id}`);
+  return response.data;
+};
+
 export const getProjects = async () => {
   const response = await axios.get(`${API_URL}/projects`);
+  return response.data;
+};
+
+export const updateProject = async (id: number, data: IProject) => {
+  const response = await axios.put(`${API_URL}/projects/${id}`, data, {
+    withCredentials: true,
+  });
   return response.data;
 };
 
