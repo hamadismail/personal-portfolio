@@ -1,15 +1,19 @@
 import React from "react";
-import { getProjects, getProject } from "@/lib/projects";
+// import { getProjects, getProject } from "@/lib/projects";
 import { IProject } from "@/types/project";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import BackToTopButton from "@/components/shared/BackToTopButton";
+import {
+  getProjectsActions,
+  getSingleProjectActions,
+} from "@/actions/blogActions";
 
-export const revalidate = 60;
+// export const revalidate = 60;
 
 export async function generateStaticParams() {
-  const projects: IProject[] = await getProjects();
+  const projects: IProject[] = await getProjectsActions();
   return projects.map((project) => ({
     projectId: project.id.toString(),
   }));
@@ -21,7 +25,7 @@ export async function generateMetadata({
   params: Promise<{ projectId: string }>;
 }) {
   const { projectId } = await params;
-  const project = await getProject(Number(projectId));
+  const project = await getSingleProjectActions(Number(projectId));
 
   if (!project) {
     return {
@@ -47,7 +51,7 @@ async function ProjectDetailsPage({
   params: Promise<{ projectId: string }>;
 }) {
   const { projectId } = await params;
-  const project = await getProject(Number(projectId));
+  const project = await getSingleProjectActions(Number(projectId));
 
   if (!project) {
     notFound();

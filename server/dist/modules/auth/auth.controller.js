@@ -26,7 +26,11 @@ const loginWithEmailAndPassword = (req, res) => __awaiter(void 0, void 0, void 0
     }
 });
 const logout = (req, res) => {
-    res.clearCookie("accessToken");
+    res.clearCookie("accessToken", {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none",
+    });
     res.status(200).json({ message: "Logged out successfully" });
 };
 const me = (req, res) => {

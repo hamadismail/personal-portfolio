@@ -1,16 +1,16 @@
 import React from "react";
-import { getBlogs, getBlog } from "@/lib/blogs";
+// import { getBlogs, getBlog } from "@/lib/blogs";
 import { IBlog } from "@/types/blog";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import BackToTopButton from "@/components/shared/BackToTopButton";
+import { getBlogsActions, getSingleBlogActions } from "@/actions/blogActions";
 
-
-export const revalidate = 60;
+// export const revalidate = 60;
 
 export async function generateStaticParams() {
-  const blogs: IBlog[] = await getBlogs();
+  const blogs: IBlog[] = await getBlogsActions();
   return blogs.map((blog) => ({
     blogId: blog.id.toString(),
   }));
@@ -22,7 +22,7 @@ export async function generateMetadata({
   params: Promise<{ blogId: string }>;
 }) {
   const { blogId } = await params;
-  const blog = await getBlog(Number(blogId));
+  const blog = await getSingleBlogActions(Number(blogId));
 
   if (!blog) {
     return {
@@ -46,7 +46,7 @@ export async function generateMetadata({
 
 async function BlogPage({ params }: { params: Promise<{ blogId: string }> }) {
   const { blogId } = await params;
-  const blog = await getBlog(Number(blogId));
+  const blog = await getSingleBlogActions(Number(blogId));
 
   if (!blog) {
     notFound();
