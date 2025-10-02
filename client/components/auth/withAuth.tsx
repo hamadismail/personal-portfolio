@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { getCurrentUser } from '@/lib/auth';
+import Loading from '../ui/Loading';
 
 const withAuth = <P extends object>(WrappedComponent: React.ComponentType<P>) => {
   const Wrapper = (props: P) => {
@@ -23,7 +24,7 @@ const withAuth = <P extends object>(WrappedComponent: React.ComponentType<P>) =>
     }, [router]);
 
     if (!isAuthenticated) {
-      return null; // or a loading spinner
+      return <Loading />; // or a loading spinner
     }
 
     return <WrappedComponent {...props} />;
